@@ -33,7 +33,34 @@ app.post("/books", async (request, response) => {
 
     const book = await Book.create(newBook);
     return response.status(201).send(book);
-  } catch {
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
+
+// Route for get all books from database
+app.get("/books", async (request, response) => {
+  try {
+    const books = await Book.find({});
+    return response.status(200).json({
+      count: books.length,
+      data: books,
+    });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
+
+// Route for get one book from database by id
+app.get("/books/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    const book = await Book.findById(id);
+    return response.status(200).json(book);
+  } catch (error) {
     console.log(error.message);
     response.status(500).send({ message: error.message });
   }
