@@ -9,6 +9,15 @@ const app = express();
 // Middleware for parsing request body
 app.use(express.json());
 
+// Middleware for handling CORS POLICY
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.get("/", (request, response) => {
   console.log(request);
   return response.status(234).send("Hello World");
